@@ -188,11 +188,12 @@
                 <img class="qora_image" src="@Url.Content("~/images/logo.png")" alt="QORA" height="70px">
             </a>
         </div>
-        <!-- Profile and Logout Section -->
+        <!-- Profile Section (on the Navbar) -->
         <img onclick="toggleProfile()" id="profile_img"
              src="@(!string.IsNullOrEmpty(ViewBag.ProfileImage) ? ViewBag.ProfileImage : Url.Content("~/images/default-profile.png"))"
-             alt="DP" height="50px" width="50px" class="rounded-5 me-5" style="border: 2px solid var(--main-color); cursor: pointer;">
+             alt="Profile Picture" height="50px" width="50px" class="rounded-5 me-5" style="border: 2px solid var(--main-color); cursor: pointer;">
 
+        <!-- Profile Dropdown -->
         <div id="profileDiv" class="rounded-5 container p-3">
             <center>
                 <img id="profile_img"
@@ -203,16 +204,17 @@
                 <a href="@Url.Action("Settings", "Home")" class="text-decoration-none text-black putBorder">
                     <center>
                         <i class="fa-solid fa-sliders" style="rotate: 270deg;"></i> Settings
+                    </center>
                 </a>
-
-            <p class="text-center">
-                <form method="post" action="@Url.Action("Index", "Login")">
-                    <button id="logout" type="submit" style="border: none; background: white;">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
-                    </button>
-                </form>
-            </p>
+                <p class="text-center">
+                    <form asp-action="Logout" asp-controller="Login" method="post" class="logout-form">
+                        <button id="logout" type="submit" style="border: none; background: white;">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                        </button>
+                    </form>
+                </p>
             </center>
+        </div>
 
         </div>
         </div>

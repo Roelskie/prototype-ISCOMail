@@ -90,10 +90,45 @@
             </a>
         </div>
         <ul class="nav gap-3 fw-bold">
-            <li class="nav-item"><a href="@Url.Action("Index", "Login")" class="nav-link px-2 text-white nav_signin">Sign in</a></li>
+            @if (User.Identity.IsAuthenticated || !string.IsNullOrEmpty(ViewBag.FullName))
+            {
+                <!-- Profile Section (on the Navbar) -->
+                <img onclick="toggleProfile()" id="profile_img"
+                     src="@(!string.IsNullOrEmpty(ViewBag.ProfileImage) ? ViewBag.ProfileImage : Url.Content("~/images/default-profile.png"))"
+                     alt="Profile Picture" height="50px" width="50px" class="rounded-5 me-5" style="border: 2px solid var(--main-color); cursor: pointer;">
+
+                <!-- Profile Dropdown -->
+                <div id="profileDiv" class="rounded-5 container p-3">
+                    <center>
+                        <img id="profile_img"
+                             src="@(!string.IsNullOrEmpty(ViewBag.ProfileImage) ? ViewBag.ProfileImage : Url.Content("~/images/default-profile.png"))"
+                             alt="Profile" height="100px" width="100px" style="border: 2px solid var(--main-color); border-radius: 50%;">
+                        <p class="m-0 fw-bold text-center">@ViewBag.FullName</p>
+                        <p class="text-center">@ViewBag.EMAIL</p>
+                        <a href="@Url.Action("Settings", "Home")" class="text-decoration-none text-black putBorder">
+                            <center>
+                                <i class="fa-solid fa-sliders" style="rotate: 270deg;"></i> Settings
+                            </center>
+                        </a>
+                        <p class="text-center">
+                            <form asp-action="Logout" asp-controller="Login" method="post" class="logout-form">
+                                <button id="logout" type="submit" style="border: none; background: white;">
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                                </button>
+                            </form>
+                        </p>
+                    </center>
+                </div>
+
+            }
+            else
+            {
+                <li class="nav-item"><a href="@Url.Action("Index", "Login")" class="nav-link px-2 text-white nav_signin">Sign in</a></li>
+            }
         </ul>
+
     </div>
-        <div class="scroll-line"></div>
+    <div class="scroll-line"></div>
     <button onclick="topFunction()" id="scrolltopbtn" title="Go to top">
         <img src="@Url.Content("~/images/up_icon.png")" height="100%" width="80px">
     </button>
@@ -101,32 +136,21 @@
         mula sa tahanan ng husay at talino, para sa bayan...
     </p>
 </nav>
+
+
 <style>
     .scroll-line {
         height: 4px;
         background: #A08048; /* Set to a valid primary color */
         width: 100%;
     }
+
+  
 </style>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
-    $(window).scroll(function () {
-        var windowTop = $(window).scrollTop();
-        var docheight = $(document).height();
-        var winheight = $(window).height();
 
-        var scrolled = (windowTop / (docheight - winheight)) * 100;
-
-        $('.scroll-line').css('width', (scrolled + '%'));
-    });
-
-    function toggleMenu() {
-        // Define your toggle functionality here
-        $('#hamburgerNav').slideToggle(); // Example of toggle behavior
-    }
-</script>
 <script>
 
     // Get the scroll-to-top button

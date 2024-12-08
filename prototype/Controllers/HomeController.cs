@@ -22,7 +22,105 @@ namespace prototype.Controllers
 
         public IActionResult Index()
         {
+            var studentId = HttpContext.Session.GetString("ACC_STUDENT_ID");
+
+            if (string.IsNullOrEmpty(studentId) && !User.Identity.IsAuthenticated)
+            {
+                // If no session or authenticated user, show sign-in
+                return View();
+            }
+
+            // Retrieve user data based on session or authenticated user
+            var user = _context.Users.FirstOrDefault(u => u.ACC_STUDENT_ID == studentId);
+
+            if (user != null)
+            {
+                var personalInfo = _context.PERSONAL_INFORMATION.FirstOrDefault(p => p.P_STUDENT_ACC_ID == studentId);
+                var studentEnlistment = _context.STUDENT_ENLISTMENT.FirstOrDefault(e => e.SEF_STUDENT_ACC_ID == studentId);
+
+                // Fetch the most recent login time
+                var lastLogin = _context.LoginLogs
+                                        .Where(l => l.Student_ID == user.ACC_STUDENT_ID)
+                                        .OrderByDescending(l => l.LoginTime)
+                                        .FirstOrDefault();
+
+                ViewBag.LastLogin = lastLogin?.LoginTime.ToString("g") ?? "No login information";
+
+                // Populate user details
+                ViewBag.FullName = $"{personalInfo?.FIRST_NAME} {personalInfo?.MIDDLE_NAME} {personalInfo?.LAST_NAME}";
+                ViewBag.Email = user?.EMAIL ?? "Email not found";
+                ViewBag.ProfileImage = studentEnlistment?.SEF_ID_PICTURE != null
+                                            ? $"data:image/jpeg;base64,{Convert.ToBase64String(studentEnlistment.SEF_ID_PICTURE)}"
+                                            : "~/images/default-profile.png";
+            }
+
             return View();
+        }
+        public IActionResult ReferenceID()
+        {
+            var studentId = HttpContext.Session.GetString("ACC_STUDENT_ID");
+
+            if (string.IsNullOrEmpty(studentId) && !User.Identity.IsAuthenticated)
+            {
+                // If no session or authenticated user, show sign-in
+                return View();
+            }
+
+            // Retrieve user data based on session or authenticated user
+            var user = _context.Users.FirstOrDefault(u => u.ACC_STUDENT_ID == studentId);
+
+            if (user != null)
+            {
+                var personalInfo = _context.PERSONAL_INFORMATION.FirstOrDefault(p => p.P_STUDENT_ACC_ID == studentId);
+                var studentEnlistment = _context.STUDENT_ENLISTMENT.FirstOrDefault(e => e.SEF_STUDENT_ACC_ID == studentId);
+
+                // Fetch the most recent login time
+                var lastLogin = _context.LoginLogs
+                                         .Where(l => l.Student_ID == user.ACC_STUDENT_ID)
+                                         .OrderByDescending(l => l.LoginTime)
+                                         .FirstOrDefault();
+
+                ViewBag.LastLogin = lastLogin?.LoginTime.ToString("g") ?? "No login information";
+
+                // Populate user details
+                ViewBag.FullName = $"{personalInfo?.FIRST_NAME} {personalInfo?.MIDDLE_NAME} {personalInfo?.LAST_NAME}";
+                ViewBag.Email = user?.EMAIL ?? "Email not found";
+                ViewBag.ProfileImage = studentEnlistment?.SEF_ID_PICTURE != null
+                                             ? $"data:image/jpeg;base64,{Convert.ToBase64String(studentEnlistment.SEF_ID_PICTURE)}"
+                                             : "~/images/default-profile.png";
+
+                // Retrieve reference number
+                var studentReference = _context.StudentReferences
+                                               .FirstOrDefault(r => r.SR_STUDENT_ACC_ID == studentId);
+
+                if (studentReference != null)
+                {
+                    ViewBag.REFERENCE_NUMBER = studentReference.REFERENCE_NUMBER;
+                }
+                else
+                {
+                    ViewBag.REFERENCE_NUMBER = "No reference number found";
+                }
+            }
+
+            return View();
+        }
+
+        // Check if student has an appointment
+        [HttpGet]
+        public IActionResult CheckAppointmentStatus()
+        {
+            var studentAccId = HttpContext.Session.GetString("ACC_STUDENT_ID");
+
+            if (string.IsNullOrEmpty(studentAccId))
+            {
+                return Json(new { hasAppointment = false });
+            }
+
+            var appointment = _context.StudentReferences
+                                      .FirstOrDefault(sr => sr.SR_STUDENT_ACC_ID == studentAccId && sr.STATUS == "Active");
+
+            return Json(new { hasAppointment = appointment != null });
         }
 
         [HttpGet]

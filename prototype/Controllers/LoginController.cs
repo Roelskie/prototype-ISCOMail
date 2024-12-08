@@ -24,7 +24,6 @@ namespace prototype.Controllers
             return View();
         }
 
-        [HttpPost]
         public async Task<IActionResult> Enrollment(string email, string password)
         {
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
@@ -48,10 +47,21 @@ namespace prototype.Controllers
                 // Store the user's ACC_STUDENT_ID in the session
                 HttpContext.Session.SetString("ACC_STUDENT_ID", user.ACC_STUDENT_ID);
 
+                // Log the login attempt (insert into LoginLogs table)
+                var loginLog = new LoginLog
+                {
+                    Email = email,
+                    LoginTime = DateTime.Now,
+                    IsSuccessful = true,
+                    Student_ID = user.ACC_STUDENT_ID // Store Student_ID from the user record
+                };
+                _context.LoginLogs.Add(loginLog);
+                await _context.SaveChangesAsync();
+
                 // Check user type and redirect accordingly
                 if (user.USER_TYPE == "STUDENT")
                 {
-                    return RedirectToAction("Enrollment", "Student");
+                    return RedirectToAction("Index", "Home");
                 }
                 else if (user.USER_TYPE == "ADMIN")
                 {
@@ -70,7 +80,51 @@ namespace prototype.Controllers
             return View("Index");
         }
 
-        public IActionResult Feedback()
+
+
+        public async Task<IActionResult> Logout()
+        {
+            var studentId = HttpContext.Session.GetString("ACC_STUDENT_ID");
+
+            if (string.IsNullOrEmpty(studentId))
+            {
+                return RedirectToAction("Index", "Home"); // Redirect to login if no session exists
+            }
+
+            // Update the most recent login record with the logout time
+            var loginLog = await _context.LoginLogs
+                .Where(log => log.Student_ID == studentId && log.LogoutTime == null) // Find the active session
+                .OrderByDescending(log => log.LoginTime) // Get the most recent login
+                .FirstOrDefaultAsync();
+
+            if (loginLog != null)
+            {
+                loginLog.LogoutTime = DateTime.Now;
+                _context.LoginLogs.Update(loginLog);
+                await _context.SaveChangesAsync();
+            }
+
+            // Clear the session and redirect to the login page or home page
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Login");
+        }
+
+        private async Task LogLoginAttempt(string email, bool isSuccessful)
+        {
+            var loginLog = new LoginLog
+            {
+                Email = email,
+                LoginTime = DateTime.UtcNow,
+                IsSuccessful = isSuccessful
+            };
+
+            // Add log entry to the database
+            _context.LoginLogs.Add(loginLog);
+            await _context.SaveChangesAsync();
+        }
+    
+
+    public IActionResult Feedback()
         {
             return View();
         }

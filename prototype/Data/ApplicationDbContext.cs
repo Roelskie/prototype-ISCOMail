@@ -15,7 +15,15 @@ namespace prototype.Data
             : base(options)
         {
         }
-  
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Explicitly define LogId as the primary key
+            modelBuilder.Entity<LoginLog>()
+                .HasKey(log => log.LogId);
+
+            base.OnModelCreating(modelBuilder);
+        }
         public DbSet<User> Users { get; set; }  // This line remains unchanged
         public DbSet<AccountCreationModel> Accounts { get; set; } // Maps to USERS table
                                                                   // Define DbSet for each model
@@ -36,6 +44,7 @@ namespace prototype.Data
 
         public DbSet<Section> Sections { get; set; }
         public DbSet<BuildingRooms> BuildingRooms { get; set; }
+        public DbSet<LoginLog> LoginLogs { get; set; } // Add this line
 
     }
 }

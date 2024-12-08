@@ -17,46 +17,106 @@
             <h2 class="fw-bold py-4 fs-2" style="color: var(--brown);">Nice to see you again, QCian!</h2>
             <div class="d-flex gap-4 flex-wrap justify-content-center">
                 <div class="second_half">
-                    <!-- Register Section -->
-                    <div class="register mb-2">
-                        <p class="header text-white text-center p-2">NEW APPLICANT</p>
-                        <p class="text-center">Do not have an account yet?</p>
-                        <a href="@Url.Action("Index", "Register")" class="d-block text-white text-decoration-none text-center register_anchor m-3 p-1 rounded-4">REGISTER</a>
-                    </div>
+                    @if (User.Identity.IsAuthenticated || !string.IsNullOrEmpty(ViewBag.FullName))
+                    {
+                        <div class="text-center mb-4">
+                            <h3>What would you like to do?</h3>
+                            <p>Choose a task to begin.</p>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="d-flex">
+                                <a class="btn btn-custom" href="javascript:void(0);" onclick="checkAppointmentStatus()"
+                                   style="border: solid 1px black; height: 150px; width: 200px; padding: 10px; margin: 20px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; align-items: center; background-color: white; color: black; border-radius: 10px; transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;"
+                                   onmouseover="this.style.boxShadow='0 4px 12px rgba(185, 151, 84)'; this.style.transform='translateY(-4px)'; this.style.backgroundColor='rgb(185, 151, 84)'; this.style.color='black';"
+                                   onmouseout="this.style.boxShadow=''; this.style.transform=''; this.style.backgroundColor='white'; this.style.color='black';">
+                                    <img src="~/images/appointment.png" style="height: 60px; width: 60px; margin-bottom: 10px;" />
+                                    <span style="height: 40px; display: flex; justify-content: center; align-items: center; font-size: 14px; font-weight: bold;">Online Appointment</span>
+                                </a>
+                                <!-- Modal HTML -->
+                                <!-- Modal HTML -->
+                                <div id="appointmentModal" class="modal" style="display:none;">
+                                    <div class="modal-content">
+                                        <!-- Close Button -->
+                                        <span class="close" onclick="closeModal()">
+                                            <img src="~/images/close.png" alt="Close" style="width: 18px; height:18px; cursor: pointer;" />
+                                        </span>
+                                        <h3><strong>You already have an appointment!</strong></h3>
+                                        <p>Your appointment is already scheduled. Please contact support if you need to make changes.</p>
 
-                    <!-- Login Section -->
-                    <div class="login">
-                        <p class="text-center text-white header p-2 m-0">LOG IN</p>
-                        <form asp-action="Enrollment" asp-controller="Login" class="p-4 d-flex flex-column" method="post">
-                            <input class="form-control mb-2 email" type="email" name="email" placeholder="Email" value="@ViewData["Email"]" />
-                            @if (ViewData.ContainsKey("EmailError"))
-                            {
-                                <span class="text-danger">@ViewData["EmailError"]</span>
-                            }
-                            <input class="form-control" type="password" name="password" id="password" placeholder="Password" />
-                            <span toggle="#password" class="fa fa-eye field-icon toggle-password" style="position: absolute; right: 10px; top: 15px; cursor: pointer;"></span>
-                            @if (ViewData.ContainsKey("PasswordError"))
-                            {
-                                <span class="text-danger">@ViewData["PasswordError"]</span>
-                            }
-                            <div class="d-flex forgot_password gap-1 mt-3">
-                                <div class="input-group d-flex gap-1 justify-content-between">
-                                    <div>
-                                        <input class="me-1" type="checkbox" name="remember" id="remember">
-                                        <label for="remember">Remember Me</label>
+                                        <div class="contact-support">
+                                            <h3>Contact Support</h3>
+                                            <p><strong>Contact Number:</strong> 286819135</p>
+                                            <p><strong>Email:</strong> <a href="mailto:osas@qcu.edu.ph">osas@qcu.edu.ph</a></p>
+                                            <p><strong>Office Hours:</strong> Monday to Friday: 8:00 AM to 5:00 PM</p>
+                                        </div>
                                     </div>
-                                    <a href="@Url.Action("Forgot", "Login")" class="text-black">Forgot Password?</a>
                                 </div>
-                            </div>
-                            <button class="btn login_btn text-white rounded-5 mt-3" type="submit">LOG IN</button>
 
-                     
-                        </form>
-                    </div>
+
+
+                                <a class="btn btn-custom"
+                                   style="border: solid 1px black; height: 150px; width: 200px; padding: 10px; margin: 20px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; align-items: center; background-color: white; color: black; border-radius: 10px; transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;"
+                                   onmouseover="this.style.boxShadow='0 4px 12px rgba(185, 151, 84)'; this.style.transform='translateY(-4px)'; this.style.backgroundColor='rgba(185, 151, 84)'; this.style.color='black';"
+                                   onmouseout="this.style.boxShadow=''; this.style.transform=''; this.style.backgroundColor='white'; this.style.color='black';">
+                                    <img src="~/images/grades.png" style="height: 60px; width: 60px; margin-bottom: 10px;" />
+                                    <span style="height: 40px; display: flex; justify-content: center; align-items: center; font-size: 14px; font-weight: bold;">Grades</span>
+                                </a>
+                                <a class="btn btn-custom" href="@Url.Action("ReferenceID", "Home")"
+                                   style="border: solid 1px black; height: 150px; width: 200px; padding: 10px; margin: 20px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; align-items: center; background-color: white; color: black; border-radius: 10px; transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;"
+                                   onmouseover="this.style.boxShadow='0 4px 12px rgba(185, 151, 84)'; this.style.transform='translateY(-4px)'; this.style.backgroundColor='rgba(185, 151, 84)'; this.style.color='black';"
+                                   onmouseout="this.style.boxShadow=''; this.style.transform=''; this.style.backgroundColor='white'; this.style.color='black';">
+                                    <img src="~/images/reference-icon.png" style="height: 60px; width: 65px; margin-bottom: 10px;" />
+                                    <span style="height: 40px; display: flex; justify-content: center; align-items: center; font-size: 14px; font-weight: bold;">Reference Number</span>
+                                </a>
+                            </div>
+                        </div>
+
+
+
+
+                    }
+                    else
+                    {
+                        <!-- Register Section -->
+                        <div class="register mb-2">
+                            <p class="header text-white text-center p-2">NEW APPLICANT</p>
+                            <p class="text-center">Do not have an account yet?</p>
+                            <a href="@Url.Action("Index", "Register")" class="d-block text-white text-decoration-none text-center register_anchor m-3 p-1 rounded-4">REGISTER</a>
+                        </div>
+
+                        <!-- Login Section -->
+                        <div class="login">
+                            <p class="text-center text-white header p-2 m-0">LOG IN</p>
+                            <form asp-action="Enrollment" asp-controller="Login" class="p-4 d-flex flex-column" method="post">
+                                <input class="form-control mb-2 email" type="email" name="email" placeholder="Email" value="@ViewData["Email"]" />
+                                @if (ViewData.ContainsKey("EmailError"))
+                                {
+                                    <span class="text-danger">@ViewData["EmailError"]</span>
+                                }
+                                <input class="form-control" type="password" name="password" id="password" placeholder="Password" />
+                                <span toggle="#password" class="fa fa-eye field-icon toggle-password" style="position: absolute; right: 10px; top: 15px; cursor: pointer;"></span>
+                                @if (ViewData.ContainsKey("PasswordError"))
+                                {
+                                    <span class="text-danger">@ViewData["PasswordError"]</span>
+                                }
+                                <div class="d-flex forgot_password gap-1 mt-3">
+                                    <div class="input-group d-flex gap-1 justify-content-between">
+                                        <div>
+                                            <input class="me-1" type="checkbox" name="remember" id="remember">
+                                            <label for="remember">Remember Me</label>
+                                        </div>
+                                        <a href="@Url.Action("Forgot", "Login")" class="text-black">Forgot Password?</a>
+                                    </div>
+                                </div>
+                                <button class="btn login_btn text-white rounded-5 mt-3" type="submit">LOG IN</button>
+                            </form>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
     </section>
+
 
     <!-- Third Section: Navigation Links -->
     <section>
@@ -196,3 +256,118 @@
         }
     });
 </script>
+
+<script>
+    function checkAppointmentStatus() {
+        var studentAccId = "@Context.Session.GetString("ACC_STUDENT_ID")"; // Access session data in Razor
+
+        $.ajax({
+            url: '@Url.Action("CheckAppointmentStatus", "Home")', // URL of the new controller action
+            type: 'GET',
+            success: function (data) {
+                if (data.hasAppointment) {
+                    // Show modal if the student already has an appointment
+                    showModal();
+                } else {
+                    // Redirect to enrollment page if no appointment exists
+                    window.location.href = '@Url.Action("Enrollment", "Student")';
+                }
+            },
+            error: function () {
+                alert('Error checking appointment status.');
+            }
+        });
+    }
+    function showModal() {
+        const modal = document.getElementById('appointmentModal');
+        modal.style.display = 'flex';  // Ensure it's displayed as flex (centered)
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('appointmentModal');
+        modal.style.display = 'none';  // Hide the modal
+    }
+
+
+</script>
+
+<style>
+    /* Modal Background */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Fixed positioning */
+        top: 0;
+        left: 0;
+        width: 100%; /* Full screen width */
+        height: 100%; /* Full screen height */
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        z-index: 9999; /* Ensure the modal is always on top */
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+        display: flex; /* Use flexbox for centering */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 450px; /* Fixed width */
+        max-width: 90%; /* Ensure it's responsive on smaller screens */
+        text-align: center;
+        position: relative; /* For positioning the close button */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Close Button */
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 30px;
+        color: #333;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+        /* Hover effect for close button */
+        .close:hover {
+            transform: scale(1.1); /* Slightly increase the size of the close button */
+        }
+
+    .modal.show {
+        display: flex;
+        opacity: 1;
+        transform: scale(1);
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .contact-support {
+        margin-top: 20px;
+        padding-top: 10px;
+        border-top: 1px solid #ccc;
+    }
+
+        .contact-support h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .contact-support p {
+            font-size: 14px;
+            color: #555;
+            text-align: left;
+        }
+
+        .contact-support a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+            .contact-support a:hover {
+                text-decoration: underline;
+            }
+
+</style>
