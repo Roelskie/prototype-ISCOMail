@@ -7,8 +7,8 @@ public class EmailService
 {
     private readonly string _smtpServer = "smtp.gmail.com"; // Your SMTP server
     private readonly int _smtpPort = 587; // Common port for SMTP
-    private readonly string _smtpUser = "ask.qora.concerns@gmail.com"; // Your email
-    private readonly string _smtpPass = "duyl uqse cayv vobd"; // Your email password
+    private readonly string _smtpUser = "info.qora2024@gmail.com"; // Your email
+    private readonly string _smtpPass = "ebks jlww eeid nlcq"; // Your email password
 
     public void SendPasswordResetEmail(string toEmail, string otp)
     {

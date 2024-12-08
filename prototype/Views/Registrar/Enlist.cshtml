@@ -4,7 +4,6 @@
     var currentTime = DateTime.Now.ToString("h:mm tt");
     var amPm = DateTime.Now.ToString("tt");
     var currentDateTime = DateTime.Now.ToString("dddd, MMMM dd, yyyy (tt)");
-    var subjects = ViewBag.Subjects as Dictionary<string, List<object>>;
 }
 @model prototype.Models.Registrar.StudentDetailsViewModel
 
@@ -46,7 +45,7 @@
                     <div style="background-color: var(--secondary-color);" class="rounded-4 text-white p-2 text-center flex-fill">
                         <span class="fs-4 fw-bold">43</span>
                         <p class="m-0">Total Students</p>
-                    </div> 
+                    </div>
                     <div style="background-color: var(--secondary-color);" class="rounded-4 text-white p-2 text-center flex-fill">
                         <span class="fs-4 fw-bold">43</span>
                         <p class="m-0">Available Room</p>
@@ -67,51 +66,81 @@
                     </div>
                     <div class="d-flex flex-column align-items-center">
                         <a href="@Url.Action("Building")" class="text-black">
-                            <i class="fa-regular fa-building border border-black p-2 rounded-3 mainColorHover" style="width: 32px; cursor: pointer;"></i></a>
+                            <i class="fa-regular fa-building border border-black p-2 rounded-3 mainColorHover" style="width: 32px; cursor: pointer;"></i>
+                        </a>
                         <span style="font-size: 12px;">Building</span>
                     </div>
                     <div class="d-flex flex-column align-items-center">
                         <a href="@Url.Action("Section")" class="text-black">
-                            <i class="fa-regular fa-building border border-black p-2 rounded-3 mainColorHover" style="width: 32px; cursor: pointer;"></i></a>
+                            <i class="fa-regular fa-building border border-black p-2 rounded-3 mainColorHover" style="width: 32px; cursor: pointer;"></i>
+                        </a>
                         <span style="font-size: 12px;">Section</span>
                     </div>
                 </div>
+                <br />
+                <br />
+                <div class="form-row d-flex justify-content-start">
+                    <!-- Year Level Dropdown -->
+                    <!-- Year Level Dropdown -->
+                    <select id="year" class="form-select w-auto" onchange="updateSections()">
+                        <option selected>Select Year</option>
+
+                        @foreach (var year in ViewBag.YearLevel)
+                        {
+                            <option value="@year">
+                                @year@(
+                               year == 1 ? "st" :
+                               year == 2 ? "nd" :
+                               year == 3 ? "rd" :
+                               year >= 4 ? "th" : ""
+                               ) Year
+                            </option>
+                        }
+                    </select>
+
+                    <select id="semester" class="form-select w-auto" onchange="updateSections()">
+                        <option selected>Select Term</option>
+
+                        @foreach (var term in ViewBag.Term)
+                        {
+                            <option value="@term">
+                                @term@(
+                               term == 1 ? "st" :
+                               term == 2 ? "nd" :
+                               term == 3 ? "rd" :
+                               term >= 4 ? "th" : ""
+                               ) Semester
+                            </option>
+                        }
+                    </select>
+
+
+
+                    <!-- Section Dropdown -->
+                    <select id="section" class="form-select w-auto" onchange="updateSchedule()">
+                        <option selected>Select Section</option>
+                    </select>
+                </div>
+
 
                 <!-- Courses Table -->
                 <div class="table-responsive">
-                    <table class="table mt-4 w-100">
+                    <table id="scheduleTable" class="table" style="display:none;">
                         <thead>
                             <tr>
-                                <th scope="col">Code</th>
-                                <th scope="col">Subject</th>
-                                <th scope="col">Units</th>
-                                <th scope="col">Days</th>
-                                <th scope="col">Time</th>
+                                <th>Subject Code</th>
+                                <th>Subject Name</th>
+                                <th>Day</th>
+                                <th>Time</th>
+                                <th>Room</th>
+                                <th>Building</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (subjects != null && subjects.Any())
-                            {
-                                foreach (var subject in subjects)
-                                {
-                                    <tr>
-                                        <td>@subject.Key</td>
-                                        <td>@subject.Value[0]</td>
-                                        <td>@subject.Value[1]</td>
-                                        <td>@subject.Value[2]</td> <!-- Days -->
-                                        <td>@subject.Value[3]</td> <!-- Time -->
-                                    </tr>
-                                }
-                            }
-                            else
-                            {
-                                <tr>
-                                    <td colspan="5" class="text-center text-danger">No subjects found for this term.</td>
-                                </tr>
-                            }
+                            <!-- Schedule rows will be appended here -->
                         </tbody>
-
                     </table>
+
                 </div>
 
                 <!-- Proceed Button -->
@@ -127,7 +156,7 @@
                              alt="Student Photo">
                         <p class="name fw-bold fs-5 mb-2">@Model.FirstName @Model.LastName</p>
                         <p class="badge bg-secondary rounded-2 mb-2">
-                            @ViewBag.FormattedYearLevelTerm
+                            @ViewBag.YearLevel Year - @ViewBag.Term Term
                         </p>
                         <p class="badge @((Model.Gwa == null || Model.Gwa == "0") ? "bg-danger" : "bg-success") rounded-2 mb-2">
                             @(Model.Gwa == null || Model.Gwa == "0" ? "NOT CLEARED" : "CLEARED")
@@ -166,4 +195,72 @@
     // Update the time every second
     setInterval(updateTime, 1000);
 
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Automatically trigger when the page loads
+        var yearLevel = '@ViewBag.YearLevel';
+        var term = '@ViewBag.Term';
+
+        if (yearLevel && term) {
+            // Get Sections
+            $.ajax({
+                url: '@Url.Action("GetSections", "Registrar")',
+                type: 'GET',
+                data: { yearLevel: yearLevel, term: term },
+                success: function (sections) {
+                    if (sections.error) {
+                        alert(sections.error);
+                    } else {
+                        // Populate sections dropdown
+                        $('#Section').empty();
+                        $('#Section').append('<option value="">Select Section</option>');
+                        $.each(sections, function (index, section) {
+                            $('#Section').append('<option value="' + section + '">' + section + '</option>');
+                        });
+
+                        // Automatically trigger the schedule request after loading sections
+                        getSchedule(yearLevel, term, $('#Section').val());
+                    }
+                }
+            });
+        }
+
+        // Trigger schedule update when the Section changes
+        $('#Section').change(function () {
+            var section = $('#Section').val();
+            if (section) {
+                getSchedule(yearLevel, term, section);
+            }
+        });
+    });
+
+    function getSchedule(yearLevel, term, section) {
+        // Get Schedule
+        $.ajax({
+            url: '@Url.Action("GetSchedule", "Registrar")',
+            type: 'GET',
+            data: { yearLevel: yearLevel, term: term, section: section },
+            success: function (schedule) {
+                if (schedule.error) {
+                    alert(schedule.error);
+                } else {
+                    // Display the schedule table
+                    var scheduleHtml = '<table class="table"><thead><tr><th>Subject Code</th><th>Subject Name</th><th>Day</th><th>Time</th><th>Room</th><th>Building</th></tr></thead><tbody>';
+                    $.each(schedule, function (index, item) {
+                        scheduleHtml += '<tr>';
+                        scheduleHtml += '<td>' + item.SubjectCode + '</td>';
+                        scheduleHtml += '<td>' + item.SubjectName + '</td>';
+                        scheduleHtml += '<td>' + item.Day + '</td>';
+                        scheduleHtml += '<td>' + item.Time + '</td>';
+                        scheduleHtml += '<td>' + item.Room + '</td>';
+                        scheduleHtml += '<td>' + item.Building + '</td>';
+                        scheduleHtml += '</tr>';
+                    });
+                    scheduleHtml += '</tbody></table>';
+                    $('#ScheduleTable').html(scheduleHtml); // Assuming there's a div with id 'ScheduleTable'
+                }
+            }
+        });
+    }
 </script>

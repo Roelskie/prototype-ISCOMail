@@ -555,3 +555,8 @@ input[type=number] {
     .tool-tip[data-tooltip-position="bottom"]:hover::after {
         transform: translate3d(-50%, 0px, 0);
     }
+
+.conflict {
+    background-color: #ffcccc; /* Light red to indicate conflict */
+    font-weight: bold;
+}

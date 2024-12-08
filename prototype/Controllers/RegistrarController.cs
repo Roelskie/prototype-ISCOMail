@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using prototype.Data;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading.Tasks;
-using prototype.Models.Register;  // For User and PersonalInformation
-using prototype.Models.Student;   // For StudentEnlistment and others
-using prototype.Models.Registrar;
-using prototype.Models;           // For StudentEnlistment and others
+﻿    using Microsoft.AspNetCore.Mvc;
+    using prototype.Data;
+    using Microsoft.EntityFrameworkCore;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using prototype.Models.Register;  // For User and PersonalInformation
+    using prototype.Models.Student;   // For StudentEnlistment and others
+    using prototype.Models.Registrar;
+    using prototype.Models;           // For StudentEnlistment and others
 
-namespace prototype.Controllers
-{
+    namespace prototype.Controllers
+    {
     public class RegistrarController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -47,101 +47,101 @@ namespace prototype.Controllers
                                   where user.ACC_STUDENT_ID == studentId
                                   select new StudentDetailsViewModel
                                   {
-                    // PersonalInformation /// 
-                    FirstName = personal.FIRST_NAME,
-                    MiddleName = personal.MIDDLE_NAME,
-                    LastName = personal.LAST_NAME,
-                    Suffix = personal.SUFFIX,
-                    BirthDate = personal.DATE_OF_BIRTH,
-                    BirthPlace = personal.BIRTH_PLACE,
-                    Citizenship = personal.CITIZENSHIP,
-                    Gender = personal.GENDER,
-                    Religion = personal.RELIGION,
-                    CivilStatus = personal.CIVIL_STATUS,
-                    Barangay = personal.BARANGAY,
-                    District = personal.DISTRICT,
-                    Municipality = personal.MUNICIPALITY,
-                    Street = personal.STREET,
-                    ZipCode = personal.ZIPCODE,
+                                      // PersonalInformation /// 
+                                      FirstName = personal.FIRST_NAME,
+                                      MiddleName = personal.MIDDLE_NAME,
+                                      LastName = personal.LAST_NAME,
+                                      Suffix = personal.SUFFIX,
+                                      BirthDate = personal.DATE_OF_BIRTH,
+                                      BirthPlace = personal.BIRTH_PLACE,
+                                      Citizenship = personal.CITIZENSHIP,
+                                      Gender = personal.GENDER,
+                                      Religion = personal.RELIGION,
+                                      CivilStatus = personal.CIVIL_STATUS,
+                                      Barangay = personal.BARANGAY,
+                                      District = personal.DISTRICT,
+                                      Municipality = personal.MUNICIPALITY,
+                                      Street = personal.STREET,
+                                      ZipCode = personal.ZIPCODE,
 
-                    // UserInformation /// 
-                    StudentId = user.ACC_STUDENT_ID,
+                                      // UserInformation /// 
+                                      StudentId = user.ACC_STUDENT_ID,
 
-                    // BasicInformation /// 
-                    Lrn = BasicInformation.LRN,
-                    ApplyingAs = BasicInformation.APPLYING_AS,
-                    Application_DATE = BasicInformation.APPLICATION_DATE,
+                                      // BasicInformation /// 
+                                      Lrn = BasicInformation.LRN,
+                                      ApplyingAs = BasicInformation.APPLYING_AS,
+                                      Application_DATE = BasicInformation.APPLICATION_DATE,
 
-                    // Education /// 
+                                      // Education /// 
 
-                    CollegeName = Educations.COLLEGE_NAME,
-                    CollegeAddress = Educations.C_ADDRESS,
-                    CollegeCourseYr = Educations.C_COURSE_YR,
-                    CollegeDateGraduated = Educations.C_DATE_GRADUATED,
-                    CollegeHonorsReceived = Educations.C_HONORS_RECEIVED,
-                    CollegeLocation = Educations.C_LOCATION,
-                    CollegeSchoolType = Educations.C_SCHOOL_TYPE,
+                                      CollegeName = Educations.COLLEGE_NAME,
+                                      CollegeAddress = Educations.C_ADDRESS,
+                                      CollegeCourseYr = Educations.C_COURSE_YR,
+                                      CollegeDateGraduated = Educations.C_DATE_GRADUATED,
+                                      CollegeHonorsReceived = Educations.C_HONORS_RECEIVED,
+                                      CollegeLocation = Educations.C_LOCATION,
+                                      CollegeSchoolType = Educations.C_SCHOOL_TYPE,
 
-                    // Family /// 
+                                      // Family /// 
 
-                    FatherFirstName = Family.FATHER_FIRST_NAME,
-                    FatherMiddleName = Family.FATHER_MIDDLE_NAME,
-                    FatherLastName = Family.FATHER_LAST_NAME,
-                    FatherSuffix = Family.FATHER_SUFFIX,
-                    FatherOccupation = Family.FATHER_OCCUPATION,
-                    FatherEducationalAttainment = Family.FATHER_EDUCATIONAL_ATTAINMENT,
-                    FatherContactNumber = Family.FATHER_CONTACT_NUMBER,
+                                      FatherFirstName = Family.FATHER_FIRST_NAME,
+                                      FatherMiddleName = Family.FATHER_MIDDLE_NAME,
+                                      FatherLastName = Family.FATHER_LAST_NAME,
+                                      FatherSuffix = Family.FATHER_SUFFIX,
+                                      FatherOccupation = Family.FATHER_OCCUPATION,
+                                      FatherEducationalAttainment = Family.FATHER_EDUCATIONAL_ATTAINMENT,
+                                      FatherContactNumber = Family.FATHER_CONTACT_NUMBER,
 
-                    MotherFirstName = Family.MOTHER_FIRST_NAME,
-                    MotherMiddleName = Family.MOTHER_MIDDLE_NAME,
-                    MotherLastName = Family.MOTHER_LAST_NAME,
-                    MotherContactNumber = Family.MOTHER_CONTACT_NUMBER,
-                    MotherEducationalAttainment = Family.MOTHER_EDUCATIONAL_ATTAINMENT,
-                    MotherOccupation = Family.MOTHER_OCCUPATION,
+                                      MotherFirstName = Family.MOTHER_FIRST_NAME,
+                                      MotherMiddleName = Family.MOTHER_MIDDLE_NAME,
+                                      MotherLastName = Family.MOTHER_LAST_NAME,
+                                      MotherContactNumber = Family.MOTHER_CONTACT_NUMBER,
+                                      MotherEducationalAttainment = Family.MOTHER_EDUCATIONAL_ATTAINMENT,
+                                      MotherOccupation = Family.MOTHER_OCCUPATION,
 
-                    FamilyBarangay = Family.FAMILY_BARANGAY,
-                    FamilyDistrict = Family.FAMILY_DISTRICT,
-                    FamilyMunicipality = Family.FAMILY_MUNICIPALITY,
-                    FamilyStreet = Family.FAMILY_STREET,
-                    FamilyZipCode = Family.FAMILY_ZIPCODE,
+                                      FamilyBarangay = Family.FAMILY_BARANGAY,
+                                      FamilyDistrict = Family.FAMILY_DISTRICT,
+                                      FamilyMunicipality = Family.FAMILY_MUNICIPALITY,
+                                      FamilyStreet = Family.FAMILY_STREET,
+                                      FamilyZipCode = Family.FAMILY_ZIPCODE,
 
-                    GuardianFirstName = Family.GUARDIAN_FIRST_NAME,
-                    GuardianMiddleName = Family.GUARDIAN_MIDDLE_NAME,
-                    GuardianLastName = Family.GUARDIAN_LAST_NAME,
-                    GuardianSuffix = Family.GUARDIAN_SUFFIX,
-                    GuardianContactNumber = Family.GUARDIAN_SUFFIX,
-                    GuardianRelationship = Family.GUARDIAN_RELATIONSHIP,
+                                      GuardianFirstName = Family.GUARDIAN_FIRST_NAME,
+                                      GuardianMiddleName = Family.GUARDIAN_MIDDLE_NAME,
+                                      GuardianLastName = Family.GUARDIAN_LAST_NAME,
+                                      GuardianSuffix = Family.GUARDIAN_SUFFIX,
+                                      GuardianContactNumber = Family.GUARDIAN_SUFFIX,
+                                      GuardianRelationship = Family.GUARDIAN_RELATIONSHIP,
 
 
-                    PicoeFirstName = EmergencyContact.PICOE_FIRSTNAME,
-                    PicoeMiddleName = EmergencyContact.PICOE_MIDDLENAME,
-                    PicoeLastName = EmergencyContact.PICOE_LASTNAME,
-                    PicoeSuffix = EmergencyContact.PICOE_SUFFIX,
-                    PicoeContactNumber = EmergencyContact.PICOE_CONTACTNUMBER,
-                    PicoeHouseStreet = EmergencyContact.PICOE_HOUSESTREET,
-                    PicoeBrgy = EmergencyContact.PICOE_BRGY,
-                    PicoeDistrict = EmergencyContact.PICOE_DISTRICT,
-                    PicoeMunicipality = EmergencyContact.PICOE_MUNICIPALITY,
-                    PicoeZipCode = EmergencyContact.PICOE_ZIPCODE,
-                    PicoeRelationship = EmergencyContact.PICOE_RELATIONSHIP,
+                                      PicoeFirstName = EmergencyContact.PICOE_FIRSTNAME,
+                                      PicoeMiddleName = EmergencyContact.PICOE_MIDDLENAME,
+                                      PicoeLastName = EmergencyContact.PICOE_LASTNAME,
+                                      PicoeSuffix = EmergencyContact.PICOE_SUFFIX,
+                                      PicoeContactNumber = EmergencyContact.PICOE_CONTACTNUMBER,
+                                      PicoeHouseStreet = EmergencyContact.PICOE_HOUSESTREET,
+                                      PicoeBrgy = EmergencyContact.PICOE_BRGY,
+                                      PicoeDistrict = EmergencyContact.PICOE_DISTRICT,
+                                      PicoeMunicipality = EmergencyContact.PICOE_MUNICIPALITY,
+                                      PicoeZipCode = EmergencyContact.PICOE_ZIPCODE,
+                                      PicoeRelationship = EmergencyContact.PICOE_RELATIONSHIP,
 
                                       // StudentScreening /// 
                                       YearLevel = screening.YR_LEVEL,
-                    Term = screening.YR_TERM,
-                    Academic_FROM = screening.ACADEMIC_FROM,
-                    Academic_TO = screening.ACADEMIC_TO,
+                                      Term = screening.YR_TERM,
+                                      Academic_FROM = screening.ACADEMIC_FROM,
+                                      Academic_TO = screening.ACADEMIC_TO,
 
 
 
-                    // StudentReference /// 
-                    ReferenceNumber = _context.StudentReferences
+                                      // StudentReference /// 
+                                      ReferenceNumber = _context.StudentReferences
                         .FirstOrDefault(r => r.SR_STUDENT_ACC_ID == studentId).REFERENCE_NUMBER,
 
-                    // StudentEnlistment /// 
-                    PhotoUrl = enlistment.SEF_ID_PICTURE != null && enlistment.SEF_ID_PICTURE.Length > 0
+                                      // StudentEnlistment /// 
+                                      PhotoUrl = enlistment.SEF_ID_PICTURE != null && enlistment.SEF_ID_PICTURE.Length > 0
                         ? $"data:image/jpeg;base64,{Convert.ToBase64String(enlistment.SEF_ID_PICTURE)}"
                         : "/images/default-profile.jpg"
-                }).FirstOrDefault();
+                                  }).FirstOrDefault();
 
 
             if (studentDetails == null)
@@ -268,8 +268,7 @@ namespace prototype.Controllers
             return View(model);
         }
 
-        [HttpGet]
-        public ActionResult Enlist(string studentId)
+        public async Task<ActionResult> Enlist(string studentId)
         {
             if (string.IsNullOrEmpty(studentId))
             {
@@ -277,30 +276,27 @@ namespace prototype.Controllers
                 return RedirectToAction("Index");
             }
 
-            var studentDetails = (from user in _context.Users
-                                  join personal in _context.PERSONAL_INFORMATION
-                                  on user.ACC_STUDENT_ID equals personal.P_STUDENT_ACC_ID
-                                  join screening in _context.StudentYrScreenings
-                                  on user.ACC_STUDENT_ID equals screening.SYC_STUDENT_ACC_ID
-                                  join enlistment in _context.STUDENT_ENLISTMENT
-                                 on user.ACC_STUDENT_ID equals enlistment.SEF_STUDENT_ACC_ID
-                                  where user.ACC_STUDENT_ID == studentId
-                                  select new StudentDetailsViewModel
-                                  {
-                                      StudentId = user.ACC_STUDENT_ID,
-                                      FirstName = personal.FIRST_NAME,
-                                      MiddleName = personal.MIDDLE_NAME,
-                                      LastName = personal.LAST_NAME,
-                                      Suffix = personal.SUFFIX,
-                                      YearLevel = screening.YR_LEVEL,
-                                      Term = screening.YR_TERM,
-
-                    // StudentEnlistment /// 
-                    PhotoUrl = enlistment.SEF_ID_PICTURE != null && enlistment.SEF_ID_PICTURE.Length > 0
-                                      ? $"data:image/jpeg;base64,{Convert.ToBase64String(enlistment.SEF_ID_PICTURE)}"
-                        : "/images/default-profile.jpg"
-                                  }).FirstOrDefault();
-
+            var studentDetails = await (from user in _context.Users
+                                        join personal in _context.PERSONAL_INFORMATION
+                                        on user.ACC_STUDENT_ID equals personal.P_STUDENT_ACC_ID
+                                        join screening in _context.StudentYrScreenings
+                                        on user.ACC_STUDENT_ID equals screening.SYC_STUDENT_ACC_ID
+                                        join enlistment in _context.STUDENT_ENLISTMENT
+                                        on user.ACC_STUDENT_ID equals enlistment.SEF_STUDENT_ACC_ID
+                                        where user.ACC_STUDENT_ID == studentId
+                                        select new StudentDetailsViewModel
+                                        {
+                                            StudentId = user.ACC_STUDENT_ID,
+                                            FirstName = personal.FIRST_NAME,
+                                            MiddleName = personal.MIDDLE_NAME,
+                                            LastName = personal.LAST_NAME,
+                                            Suffix = personal.SUFFIX,
+                                            YearLevel = screening.YR_LEVEL,
+                                            Term = screening.YR_TERM,
+                                            PhotoUrl = enlistment.SEF_ID_PICTURE != null && enlistment.SEF_ID_PICTURE.Length > 0
+                                                ? $"data:image/jpeg;base64,{Convert.ToBase64String(enlistment.SEF_ID_PICTURE)}"
+                                                : "/images/default-profile.jpg"
+                                        }).FirstOrDefaultAsync();
 
             if (studentDetails == null)
             {
@@ -308,20 +304,67 @@ namespace prototype.Controllers
                 return RedirectToAction("Index");
             }
 
-            // Format Year Level and Term using FormatYearLevelTerm
-            var formattedYearLevelTerm = FormatYearLevelTerm(studentDetails.YearLevel, studentDetails.Term);
+            // Set ViewBag values
+            ViewBag.StudentDetails = studentDetails;
+            ViewBag.YearLevel = studentDetails.YearLevel;
+            ViewBag.Term = studentDetails.Term;
+
+            var formattedYearLevelTerm = $"{studentDetails.YearLevel}st Year, {studentDetails.Term}st Semester";
             ViewBag.FormattedYearLevelTerm = formattedYearLevelTerm;
 
-            // Get Subject Data for the current Year Level and Term
-            var subjectData = GetSubjectData();
-            var yearTermKey = $"{studentDetails.YearLevel}/{studentDetails.Term}";
-            var subjects = subjectData.ContainsKey(yearTermKey)
-                ? subjectData[yearTermKey]
-                : new Dictionary<string, List<object>>();
+            string yearTerm = $"{ViewBag.YearLevel},{ViewBag.Term}";
 
-            // Pass both studentDetails and subjects to the view
-            ViewBag.Subjects = subjects;
+            // Retrieve schedules based on the Year and Term
+            var schedules = _context.SCHEDULE
+                                    .Where(s => s.YearSem == yearTerm)
+                                    .ToList();
+
+            ViewBag.Schedule = schedules; // Make sure schedules are set correctly
+
             return View(studentDetails);
+        }
+        public async Task<IActionResult> GetSections(int yearLevel, int term)
+        {
+            if (yearLevel == 0 || term == 0)
+            {
+                return Json(new { error = "Please select Year and Term." });
+            }
+
+            string yearSem = $"{yearLevel},{term}";
+
+            var sections = await _context.Sections
+                .Where(s => s.SECTION_YEAR_SEM == yearSem)
+                .Select(s => s.SECTION_NAME)
+                .Distinct()
+                .ToListAsync();
+
+            return Json(sections);
+        }
+
+
+        public async Task<IActionResult> GetSchedule(int yearLevel, int term, string section)
+        {
+            if (yearLevel == 0 || term == 0 || string.IsNullOrEmpty(section))
+            {
+                return Json(new { error = "Please select Year, Term, and Section." });
+            }
+
+            string yearSem = $"{yearLevel},{term}";
+
+            var schedule = await _context.SCHEDULE
+                .Where(s => s.YearSem == yearSem && s.Section == section)
+                .Select(s => new
+                {
+                    s.SubjectCode,
+                    s.SubjectName,
+                    s.Day,
+                    s.Time,
+                    s.Room,
+                    s.Building
+                })
+                .ToListAsync();
+
+            return Json(schedule);
         }
 
 
@@ -376,7 +419,7 @@ namespace prototype.Controllers
             return View(studentProfiles);
         }
 
-      
+
         // AddCourse Action - Display Add Course page
         public IActionResult AddCourse()
         {
@@ -395,17 +438,13 @@ namespace prototype.Controllers
         {
             return View();
         }
-
-        public IActionResult Building()
-        {
-            return View();
-        }
-        public IActionResult Section()
+    
+    public IActionResult Section()
         {
             return View();
         }
 
-        // DELETE: /Registrar/DeleteReferenceByStudentId
+        // DELETE: /Registrar/DeleteReferenceByStudentId    
         [HttpDelete]
         public async Task<IActionResult> DeleteReferenceByStudentId(string studentId)
         {
@@ -434,6 +473,7 @@ namespace prototype.Controllers
 
 
 
+
         // Helper method to format YearLevel and Term
         private string FormatYearLevelTerm(string yrLevel, string yrTerm)
         {
@@ -441,6 +481,7 @@ namespace prototype.Controllers
             {
                 return "Year and Term data missing";
             }
+
             // Format Year Level with suffix (st, nd, rd, th)
             string yearSuffix = GetYearSuffix(yrLevel);
             string formattedYrLevel = $"{yrLevel}{yearSuffix} Year";
@@ -476,127 +517,5 @@ namespace prototype.Controllers
             return ""; // Default if not found
         }
 
-        private string RandomTime(bool isMajor)
-        {
-            Random rand = new Random();
-            int startHour = rand.Next(7, 18); // Start between 7 AM and 5 PM
-            int duration = isMajor ? rand.Next(3, 5) : rand.Next(1, 3); // Major: 3-4 hours, Minor: 1-2 hours
-            int endHour = startHour + duration;
-
-            string startSuffix = startHour >= 12 ? "PM" : "AM";
-            string endSuffix = endHour >= 12 ? "PM" : "AM";
-
-            // Convert 24-hour to 12-hour format
-            int startHour12 = startHour > 12 ? startHour - 12 : startHour;
-            int endHour12 = endHour > 12 ? endHour - 12 : endHour;
-
-            return $"{startHour12}:00 {startSuffix} - {endHour12}:00 {endSuffix}";
-        }
-
-
-        public Dictionary<string, Dictionary<string, List<object>>> GetSubjectData()
-        {
-            return new Dictionary<string, Dictionary<string, List<object>>>
-    {
-        // 1st Year, 1st Semester
-        { "1/1", new Dictionary<string, List<object>>
-            {
-                { "CC102", new List<object> { "Fundamentals of Programming", 3, "M", RandomTime(true) } },
-                { "GEE1", new List<object> { "Gender and Society", 3, "T", RandomTime(false) } },
-                { "CC101", new List<object> { "Introduction to Computing", 3, "W", RandomTime(true) } },
-                { "MATH1", new List<object> { "Mathematics in the Modern World", 3, "Th", RandomTime(false) } },
-                { "NSTP1", new List<object> { "National Service Training Program 1", 3, "F", RandomTime(false) } },
-                { "GEE2", new List<object> { "People and the Earth's Ecosystems", 3, "M", RandomTime(false) } },
-                { "PE1", new List<object> { "Physical Fitness and Wellness", 2, "T", RandomTime(false) } },
-                { "WS101", new List<object> { "Web Systems and Technologies 1 (Electives)", 3, "W", RandomTime(true) } }
-            }
-        },
-
-        // 1st Year, 2nd Semester
-        { "1/2", new Dictionary<string, List<object>>
-            {
-                { "CC103", new List<object> { "Intermediate Programming", 3, "T", RandomTime(true) } },
-                { "NSTP2", new List<object> { "National Service Training Program 2", 3, "M", RandomTime(false) } },
-                { "NET101", new List<object> { "Networking 1", 3, "W", RandomTime(true) } },
-                { "GEE3", new List<object> { "Philippine Popular Culture", 3, "Th", RandomTime(false) } },
-                { "PT101", new List<object> { "Platform Technologies (Electives)", 3, "F", RandomTime(false) } },
-                { "ENG1", new List<object> { "Purposive Communication", 3, "T", RandomTime(false) } },
-                { "PE2", new List<object> { "Rhythmic Activities", 2, "Th", RandomTime(false) } },
-                { "SCI1", new List<object> { "Science, Technology and Society", 3, "F", RandomTime(false) } }
-            }
-        },
-
-        // 2nd Year, 1st Semester
-        { "2/1", new Dictionary<string, List<object>>
-            {
-                { "HUM1", new List<object> { "Art Appreciation", 3, "M", RandomTime(false) } },
-                { "CC104", new List<object> { "Data Structures and Algorithms", 3, "T", RandomTime(true) } },
-                { "PE3", new List<object> { "Individual and Dual Sports", 2, "W", RandomTime(false) } },
-                { "CC105", new List<object> { "Information Management", 3, "Th", RandomTime(true) } },
-                { "NET102", new List<object> { "Networking 2", 2, "F", RandomTime(false) } },
-                { "PF101", new List<object> { "Object-Oriented Programming", 3, "M", RandomTime(true) } },
-                { "IS104", new List<object> { "Systems Analysis and Design", 3, "T", RandomTime(true) } }
-            }
-        },
-
-        // 2nd Year, 2nd Semester
-        { "2/2", new Dictionary<string, List<object>>
-            {
-                { "IM101", new List<object> { "Advanced Database Systems", 3, "M", RandomTime(true) } },
-                { "IPT101", new List<object> { "Integrative Programming and Technologies 1", 3, "T", RandomTime(true) } },
-                { "HCI101", new List<object> { "Introduction to Human Computer Interaction", 3, "W", RandomTime(false) } },
-                { "SOCSCI2", new List<object> { "Readings in Philippine History", 3, "Th", RandomTime(false) } },
-                { "SE101", new List<object> { "Software Engineering", 3, "F", RandomTime(true) } },
-                { "PE4", new List<object> { "Team Sports", 2, "T", RandomTime(false) } },
-                { "SOCSCI1", new List<object> { "Understanding the Self", 3, "M", RandomTime(false) } }
-            }
-        },
-
-        // 3rd Year, 1st Semester
-        { "3/1", new Dictionary<string, List<object>>
-            {
-                { "AR101", new List<object> { "Architecture and Organization", 3, "M", RandomTime(true) } },
-                { "MS101", new List<object> { "Discrete Mathematics", 3, "T", RandomTime(false) } },
-                { "IPT102", new List<object> { "Integrative Programming and Technologies 2 (Electives)", 3, "W", RandomTime(true) } },
-                { "SPI101", new List<object> { "Social Professional Issues 1", 3, "Th", RandomTime(false) } },
-                { "SIA101", new List<object> { "Systems Integration and Architecture 1", 3, "F", RandomTime(true) } },
-                { "SOCSCI3", new List<object> { "The Contemporary World", 3, "W", RandomTime(false) } },
-                { "RIZAL", new List<object> { "The Life and Works of Rizal", 3, "M", RandomTime(false) } }
-            }
-        },
-
-        // 3rd Year, 2nd Semester
-        { "3/2", new Dictionary<string, List<object>>
-            {
-                { "AL101", new List<object> { "Algorithms and Complexity", 3, "M", RandomTime(true) } },
-                { "CC106", new List<object> { "Application Development and Emerging Technologies", 3, "T", RandomTime(true) } },
-                { "HUM2", new List<object> { "Ethics", 3, "W", RandomTime(false) } },
-                { "IAS101", new List<object> { "Fundamentals of Information Assurance and Security 1", 3, "Th", RandomTime(false) } },
-                { "MS102", new List<object> { "Quantitative Methods", 3, "F", RandomTime(false) } },
-                { "SIA102", new List<object> { "Systems Integration and Architecture 2 (Electives)", 3, "M", RandomTime(true) } }
-            }
-        },
-
-        // 4th Year, 1st Semester
-        { "4/1", new Dictionary<string, List<object>>
-            {
-                { "AL102", new List<object> { "Automata Theory and Formal Language", 3, "M", RandomTime(true) } },
-                { "CAP101", new List<object> { "Capstone Project and Research 1", 3, "T", RandomTime(true) } },
-                { "IAS102", new List<object> { "Information Assurance and Security 2", 3, "W", RandomTime(false) } },
-                { "PRC101", new List<object> { "Practicum 1", 3, "Th", RandomTime(false) } }
-            }
-        },
-
-        // 4th Year, 2nd Semester
-        { "4/2", new Dictionary<string, List<object>>
-            {
-                { "CAP102", new List<object> { "Capstone Project and Research 2", 3, "M", RandomTime(true) } },
-                { "PRC102", new List<object> { "Practicum 2", 3, "T", RandomTime(true) } },
-                { "SAM101", new List<object> { "Systems Administration and Maintenance", 3, "W", RandomTime(false) } }
-            }
-        }
-    };
-        
     }
-}
 }

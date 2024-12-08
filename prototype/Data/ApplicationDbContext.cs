@@ -2,7 +2,9 @@
 using Microsoft.Extensions.FileSystemGlobbing;
 using prototype.Models;
 using prototype.Models.Register;
+using prototype.Models.Registrar;
 using prototype.Models.Student;
+using prototype.Models.Registrar;
 using System.Collections.Generic;
 
 namespace prototype.Data
@@ -13,7 +15,7 @@ namespace prototype.Data
             : base(options)
         {
         }
-
+  
         public DbSet<User> Users { get; set; }  // This line remains unchanged
         public DbSet<AccountCreationModel> Accounts { get; set; } // Maps to USERS table
                                                                   // Define DbSet for each model
@@ -30,6 +32,10 @@ namespace prototype.Data
         public DbSet<StudentGrading> StudentGradings { get; set; }
 
         public DbSet<StudentReference> StudentReferences { get; set; }
+            public DbSet<Schedule> SCHEDULE { get; set; }
+
+        public DbSet<Section> Sections { get; set; }
+        public DbSet<BuildingRooms> BuildingRooms { get; set; }
 
     }
 }

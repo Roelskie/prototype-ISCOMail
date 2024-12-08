@@ -1,3 +1,4 @@
+@using prototype.Models.Registrar
 @{
     ViewBag.Title = "- Registrar";
     Layout = "~/Views/Shared/_AccountLayout.cshtml";
@@ -42,14 +43,12 @@
                             <span class="fs-9 fw-bold">5</span>
                             <div><span>Available <br>Room</span></div>
                         </div>
-                     
                     </div>
                     <!-- Action Icons (Add, Update, Delete Courses) -->
                     <div class="d-flex flex-column align-items-center">
                         <a href="@Url.Action("Section")" class="text-black"><i class="fa-solid fa-plus border border-black p-2 rounded-3 mainColorHover" style="width: 32px; cursor: pointer;"></i></a>
                         <span style="font-size: 12px;">SECTION DETAILS</span>
                     </div>
-                    
 
                     <div class="container mt-5">
                         <div class="row">
@@ -90,80 +89,113 @@
                     <br />
                     <br />
                     <br />
-                
+
                     <p class="text-end"><a href="@Url.Action("Index")" class="text-decoration-none text-white p-2 rounded-3 black-on-hover" style="background-color: var(--main-color);">Back ></a></p>
                 </div>
             </div>
+            <!-- Section for Building and Room Information -->
             <div class="second-half" style="width: 50%;">
                 <div class="border border-black rounded-3 p-3">
                     <div class="border border-black">
                         <div class="d-flex justify-content-between align-items-center text-white p-3" style="background-color: var(--main-color);">
                             <p class="fs-4 fw-bold m-0">Building Details</p>
                         </div>
+
                         <div class="container mt-5">
-                                <div class="row mb-3 align-items-center">
-                                    <div class="col-md-4">
+                            <div class="row mb-3 align-items-center">
+                          
+                        
+                                <div class="col-md-4">
                                     <label for="buildingName" class="form-label">BUILDING NAME</label>
-                                    </div>
-                                    <div class="col-md-8 ">
+                                </div>
+                                <div class="col-md-8">
                                     <select id="buildingName" class="form-select w-100">
-                                            <option selected>ACADEMIC BUILDING</option>
-                                            <option value="1">BELMONTE HALL</option>
-                                            <option value="2">BAUTISTA BUILDING</option>
-                                            <option value="3">KORPHIL</option>
-                                        <option value="3">OPEN GROUND</option>
-                                        </select>
-                                    </div>
+                                        <option value="" selected>Select Building</option>
+                                        @foreach (var building in ViewBag.Buildings)
+                                        {
+                                            <option value="@building.Building_Code" data-name="@building.Building_Name" data-code="@building.Building_Code">
+                                                @building.Building_Name
+                                            </option>
+                                        }
+                                    </select>
                                 </div>
-                                <div class="row mb-3 align-items-center">
-                                    <div class="col-md-4">
-                                        <label for="buildingCode" class="form-label">BUILDING CODE</label>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <input type="text" id="buildingCode" class="form-control" value="IL" readonly>
-                                    </div>
+                            </div>
+
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-md-4">
+                                    <label for="buildingCodes" class="form-label">BUILDING CODE</label>
                                 </div>
-                                <div class="row mb-3 align-items-center">
-                                    <div class="col-md-4">
-                                        <label for="roomNumber" class="form-label">ROOM NO.</label>
-                                    </div>  
-                                    <div class="col-md-8">
-                                        <select id="roomNumber" class="form-select w-100">
-                                            <option selected>601</option>
-                                            <option value="602">602</option>
-                                            <option value="603">603</option>
-                                        </select>
-                                    </div>
+                                <div class="col-md-8">
+                                    <input type="text" id="buildingCodes" class="form-control" readonly>
                                 </div>
-                                <div class="row mb-3 align-items-center">
-                                    <div class="col-md-4">
-                                        <label for="roomAvailableSlot" class="form-label">ROOM AVAILABLE SLOT</label>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <input type="number" id="roomAvailableSlot" class="form-control" value="7" readonly>
-                                    </div>
+                            </div>
+
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-md-4">
+                                    <label for="Room_No" class="form-label">ROOM NO.</label>
                                 </div>
-                                <div class="row mb-3 align-items-center">
-                                    <div class="col-md-4">
-                                        <label for="currentSection" class="form-label">CURRENT SECTION</label>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <input type="number" id="currentSection" class="form-control" value="12" readonly>
-                                    </div>
+                                <div class="col-md-8">
+                                    <select id="Room_No" name="Room_No" class="form-select w-100">
+                                        <option selected>Select Room</option>
+                                    </select>
                                 </div>
-                                <div class="row mb-3 align-items-center">
-                                    <div class="col-md-4">
-                                        <label for="maximumCapacity" class="form-label">MAXIMUM CAPACITY</label>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <input type="number" id="maximumCapacity" class="form-control" value="65" readonly>
-                                    </div>
+                            </div>
+
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-md-4">
+                                    <label for="roomAvailableSlot" class="form-label">ROOM AVAILABLE SLOT</label>
                                 </div>
-                        </div>
-                        </div>
+                                <div class="col-md-8">
+                                    <input type="number" id="roomAvailableSlot" class="form-control" readonly>
+                                </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+        @section Scripts {
+            <script>
+                // Serializing the entire building data to JavaScript
+                var buildings = @Html.Raw(Json.Serialize(ViewBag.Buildings));
+
+                // Listen for changes in the Building Name dropdown
+                document.getElementById('buildingName').addEventListener('change', function () {
+                    var selectedBuildingCode = this.value; // Get selected building code
+                    var buildingCodeField = document.getElementById('buildingCodes');
+                    var roomSelect = document.getElementById('Room_No');
+                    var availableSlotField = document.getElementById('roomAvailableSlot');
+
+                    // Set the Building Code field value
+                    var selectedBuilding = buildings.find(function (building) {
+                        return building.Building_Code === selectedBuildingCode;
+                    });
+
+                    if (selectedBuilding) {
+                        buildingCodeField.value = selectedBuilding.Building_Code;
+
+                        // Clear previous room options
+                        roomSelect.innerHTML = '<option selected>Select Room</option>';
+
+                        // Add new room options and available slots
+                        selectedBuilding.Rooms.forEach(function (room) {
+                            var option = document.createElement('option');
+                            option.value = room.Room_No;
+                            option.text = room.Room_No;
+                            roomSelect.appendChild(option);
+                        });
+
+                        // Listen for changes in the Room No dropdown
+                        roomSelect.addEventListener('change', function () {
+                            var selectedRoom = selectedBuilding.Rooms.find(function (room) {
+                                return room.Room_No === roomSelect.value;
+                            });
+
+                            if (selectedRoom) {
+                                availableSlotField.value = selectedRoom.Room_Available_Slot;
+                            }
+                        });
+                    }
+                });
+            </script>
+        }
